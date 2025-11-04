@@ -58,7 +58,7 @@ def piyavskiy_method(
 
         # Visualization
         fig, ax = plt.subplots(figsize=(10, 6))
-        ax.plot(x_points, y_points, label="f(x)")
+        ax.plot(x_points, y_points, label="W(x)")
 
         for p in points:
             y_down_r = find_minimum(find_down_right(p, L, x_points, f), y_points)
