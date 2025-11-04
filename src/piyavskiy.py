@@ -49,7 +49,7 @@ def piyavskiy_method(
         # Find intersection points
         for j in range(len(points) - 1):
             x1, x2 = points[j], points[j + 1]
-            mid, y_mid_l, y_mid_u = intersection_point(x1, x2, L)
+            mid, y_mid_l, y_mid_u = intersection_point(x1, x2, L, f)
             inters.append((mid, y_mid_l, y_mid_u))
 
         # Choose new point with minimal lower bound
@@ -61,15 +61,15 @@ def piyavskiy_method(
         ax.plot(x_points, y_points, label="f(x)")
 
         for p in points:
-            y_down_r = find_minimum(find_down_right(p, L, x_points), y_points)
-            y_down_l = find_minimum(find_down_left(p, L, x_points), y_points)
+            y_down_r = find_minimum(find_down_right(p, L, x_points, f), y_points)
+            y_down_l = find_minimum(find_down_left(p, L, x_points, f), y_points)
             ax.plot(x_points, y_down_r, "g--", alpha=0.4)
             ax.plot(x_points, y_down_l, "g--", alpha=0.4)
             ax.scatter(p, f(p), color="black")
 
-        p_n = np.maximum.reduce([f(p) - L * np.abs(x_points - p) for p in points])
-        ax.plot(x_points, p_n, "g", lw=2)
-        ax.scatter(u_new, y_min_l, color="red", s=60, label=f"итерация {i + 1}")
+        # p_n = np.maximum.reduce([f(p) - L * np.abs(x_points - p) for p in points])
+        # ax.plot(x_points, p_n, "g", lw=2)
+        # ax.scatter(u_new, y_min_l, color="red", s=60, label=f"итерация {i + 1}")
         ax.legend()
         ax.grid(alpha=0.3)
 

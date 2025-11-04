@@ -94,7 +94,7 @@ def main():
         A=A,
         B=B,
         L=L,
-        max_iter=50,
+        max_iter=100,
         save_plots=True
     )
 
