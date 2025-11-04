@@ -1,0 +1,53 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+*.egg
+*.manifest
+*.spec
+
+# --- Virtual Environments ---
+.venv/
+env/
+venv/
+
+# --- IDE / Editor Files ---
+.idea/
+.vscode/
+*.iml
+
+# --- OS-specific junk ---
+.DS_Store
+Thumbs.db
+
+# --- Logs and caches ---
+*.log
+*.tmp
+*.swp
+*.bak
+*.cache
+*.pytest_cache/
+*.mypy_cache/
+
+# --- Build / Distribution folders ---
+build/
+dist/
+
+# --- Project output (auto-generated results) ---
+results/
+piyavskiy_plots/
+*.csv
+*.png
+*.jpg
+*.pdf
+
+# --- Jupyter Notebooks checkpoints ---
+.ipynb_checkpoints/
+
+# --- Other temporary stuff ---
+*.zip
+*.tar
+*.gz
