@@ -67,9 +67,12 @@ def piyavskiy_method(
             ax.plot(x_points, y_down_l, "g--", alpha=0.4)
             ax.scatter(p, f(p), color="black")
 
-        # p_n = np.maximum.reduce([f(p) - L * np.abs(x_points - p) for p in points])
-        # ax.plot(x_points, p_n, "g", lw=2)
-        # ax.scatter(u_new, y_min_l, color="red", s=60, label=f"итерация {i + 1}")
+
+        p_n = np.maximum.reduce([f(p) - L * np.abs(x_points - p) for p in points])
+        ax.plot(x_points, p_n, "g", lw=2)
+        ax.scatter(u_new, y_min_l, color="red", s=60, label="$p_{n - 1}(u_n)$")
+        ax.scatter(u_new, y_min_u, color="yellow", s=60, label="$W(u_n)$")
+        ax.plot([u_new, u_new], [y_min_l, y_min_u], color="black", linestyle="--")
         ax.legend()
         ax.grid(alpha=0.3)
 
