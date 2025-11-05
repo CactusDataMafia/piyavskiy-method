@@ -89,8 +89,8 @@ def piyavskiy_method(
         results.append({
             "iteration": i + 1,
             "u": u_new,
-            "$p_{n-1}(u_n)$": y_min_l,
-            "$f(u_n)$": y_min_u,
+            "p_{n-1}(u_n)": y_min_l,
+            "W(u_n)": y_min_u,
             "delta": delta
         })
         # Check stop condition
