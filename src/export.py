@@ -1,7 +1,36 @@
 import pandas as pd
 from pathlib import Path
 
-def create_csv(data: list[dict], save_path: str | Path = "results", filename: str = "piyavskiy_results.xlsx") -> pd.DataFrame:
+
+def get_next_run_dir(base_dir: str = "results") -> Path:
+
+    base_path = Path(base_dir)
+    base_path.mkdir(exist_ok=True)
+
+    counter_file = base_path / "run_counter.txt"
+
+    if counter_file.exists():
+        with open(counter_file, "r", encoding="utf-8") as file:
+            try:
+                run_number = int(file.read().strip()) + 1
+            except (ValueError, OSError):
+                run_number = 1
+    else:
+        run_number = 1
+
+    with open(counter_file, "w", encoding="utf-8") as file:
+        file.write(str(run_number))
+
+    run_dir = base_path / f"run_{run_number:02d}"
+    run_dir.mkdir(parents=True, exist_ok=True)
+
+    return run_dir
+
+
+save_path = get_next_run_dir()
+
+
+def create_csv(data: list[dict], save_path: Path = save_path, filename: str = "piyavskiy_results.xlsx") -> pd.DataFrame:
     """
       Create and save a CSV file from iteration results.
 
@@ -11,9 +40,7 @@ def create_csv(data: list[dict], save_path: str | Path = "results", filename: st
       Returns: pd.DataFrame: The resulting DataFrame used to create the CSV file.
       """
 
-    save_dir = Path(save_path)
-    save_dir.mkdir(parents=True, exist_ok=True)
-    file_path = save_dir / filename
+    file_path = save_path / filename
 
     df = pd.DataFrame(data)
     df.rename(columns={
@@ -24,6 +51,5 @@ def create_csv(data: list[dict], save_path: str | Path = "results", filename: st
         "delta": "Δ"  # дельта — греческая буква
     }, inplace=True)
     df = df.round(4)
-    # df.to_csv(file_path, index=False, encoding="utf-8-sig")
     df.to_excel(file_path, index=False)
     return df

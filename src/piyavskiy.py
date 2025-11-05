@@ -1,9 +1,11 @@
 from typing import Callable
 import matplotlib.pyplot as plt
 import numpy as np
-from pathlib import Path
 from src.utils import find_down_left, find_down_right, find_minimum, intersection_point
+from src.export import save_path
 from tqdm import tqdm
+from pathlib import Path
+
 
 def piyavskiy_method(
         f: Callable[[float], float],
@@ -14,7 +16,8 @@ def piyavskiy_method(
         L: float,
         EPS: float = 0.1,
         max_iter: int = 100,
-        save_plots: bool = True
+        save_plots: bool = True,
+        save_path: Path = save_path
 ) -> list[dict]:
     """
     Run the Piyavskiy method for global optimization on a given function.
@@ -77,7 +80,7 @@ def piyavskiy_method(
         ax.grid(alpha=0.3)
 
         if save_plots:
-            output_dir = Path("results") / "piyavskiy_plots"
+            output_dir = save_path / "piyavskiy_plots"
             output_dir.mkdir(parents=True, exist_ok=True)
             plot_path = output_dir / f"piyavskiy_iter_{i+1}.png"
             fig.savefig(plot_path, bbox_inches="tight", dpi=120)
