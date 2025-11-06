@@ -1,6 +1,6 @@
+from functools import lru_cache
 import numpy as np
 from typing import Tuple
-from src.function_handler import f
 from typing import Callable
 
 def generate_x_points(start: int | float, end: int | float, *, amount: int = 600) -> np.ndarray:
@@ -43,9 +43,9 @@ def find_down_right(point: float, L: float, x_points: np.ndarray, func: Callable
     """
     return func(point) - L * (x_points - point)
 
-
+@lru_cache
 def intersection_point(point1: float, point2: float, L: float, func: Callable) -> Tuple[
-    np.ndarray, np.ndarray, np.ndarray]:
+    np.ndarray, np.ndarray]:
     """
     Calculate the intersection of two Lipschitz lower-bound lines.
 
@@ -54,15 +54,13 @@ def intersection_point(point1: float, point2: float, L: float, func: Callable) -
     :param L: Lipschitz constant that bounds the slope of f(x)
 
     Returns:
-        tuple: (x_intersection, y_lower, y_upper)
+        tuple: (x_intersection, intersection_y)
             - x_intersection (np.ndarray): x-coordinate of the intersection
-            - y_lower (np.ndarray): Value of the lower envelope at the intersection
-            - y_upper (np.ndarray): True function value f(x_intersection)
+            - intersection_y (np.ndarray): Value of the lower envelope at the intersection
     """
-    intersection = (func(point1) - func(point2)) / (2 * L) + (point1 + point2) / 2
-    intersection_l = func(point1) - L * (intersection - point1)
-    intersection_u = func(intersection)
-    return intersection, intersection_l, intersection_u
+    intersection_x = (func(point1) - func(point2)) / (2 * L) + (point1 + point2) / 2
+    intersection_y = func(point1) - L * (intersection_x - point1)
+    return intersection_x, intersection_y
 
 
 def find_minimum(arr1: np.ndarray, arr2: np.ndarray) -> np.ndarray:

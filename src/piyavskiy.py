@@ -5,7 +5,7 @@ from src.utils import find_down_left, find_down_right, find_minimum, intersectio
 from src.export import save_path
 from tqdm import tqdm
 from pathlib import Path
-
+import heapq
 
 def piyavskiy_method(
         f: Callable[[float], float],
@@ -47,16 +47,15 @@ def piyavskiy_method(
 
     for i in tqdm(range(max_iter), desc="Вычисление итераций", ncols=100, leave=False, colour="green"):
         points = sorted(points)
-        inters = []
+        heap = []
 
-        # Find intersection points
         for j in range(len(points) - 1):
             x1, x2 = points[j], points[j + 1]
-            mid, y_mid_l, y_mid_u = intersection_point(x1, x2, L, f)
-            inters.append((mid, y_mid_l, y_mid_u))
+            mid_x, mid_y = intersection_point(x1, x2, L, f)
+            heapq.heappush(heap, (mid_y, mid_x))
 
-        # Choose new point with minimal lower bound
-        u_new, y_min_l, y_min_u = min(inters, key=lambda x: x[1])
+        y_min_l, u_new, = heapq.heappop(heap)
+        y_min_u = f(u_new)
         delta = y_min_u - y_min_l
 
         # Visualization
